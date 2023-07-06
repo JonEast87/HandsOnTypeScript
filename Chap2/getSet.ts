@@ -4,6 +4,7 @@ class Speaker {
     }
 
     get Message() {
+        // @ts-ignore
         if (!this.message.includes(this.name)) {
             throw Error('message is missing speaker\'s name');
         }
@@ -12,6 +13,7 @@ class Speaker {
 
     set Message(val: string) {
         let tmpMessage = val;
+        // @ts-ignore
         if (!val.includes(this.name)) {
             tmpMessage = this.name + ' ' + val;
         }
