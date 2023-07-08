@@ -16,10 +16,12 @@ export default class Greeting extends React.Component<GreetingProps, GreetingSta
             message: Greeting.getNewMessage(props.name)
         }
     }
+    state: GreetingState;
 
     static getDerivedStateFromProps(props: GreetingProps, state: GreetingState) {
         console.log(props, state);
         if (props.name && props.name !== state.message) {
+            // Cloning the state object
             const newState = {...state};
             newState.message = Greeting.getNewMessage(props.name);
             return newState;
