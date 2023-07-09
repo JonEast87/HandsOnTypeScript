@@ -1,6 +1,7 @@
 import React, {useReducer} from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Greeting from "./Greeting";
 
 const reducer = (state: any, action: any) => {
   console.log('enteredNameReducer');
