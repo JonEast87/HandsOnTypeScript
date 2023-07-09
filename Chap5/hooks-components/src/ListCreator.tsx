@@ -10,7 +10,7 @@ export interface ListItems {
 }
 
 // Function Component for creating lists
-const ListCreator: FC<ListItems> = ({listItems}:ListItems) => {
+const ListCreator: FC<ListItems> = ({listItems}:ListItems) => {6
     let renderItems = useRef<Array<JSX.Element> | undefined>();
     useEffect(() => {
        console.log('listItems updated');
