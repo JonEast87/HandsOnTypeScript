@@ -1,7 +1,7 @@
 import React, {useReducer} from 'react';
 import logo from './logo.svg';
 import './App.css';
-import Greeting from "./Greeting";
+import Greeting from "./GreetingFunctional";
 
 const reducer = (state: any, action: any) => {
   console.log('enteredNameReducer');
@@ -36,7 +36,7 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <input value={enteredName} onChange={onChangeName} />
-        < Greeting message={message} />
+        < Greeting message={message} enteredName={enteredName} greetingDispatcher={dispatch} />
       </header>
     </div>
   );
