@@ -1,8 +1,8 @@
-import React, {useCallback, useReducer, useState} from 'react';
+import React, { useCallback, useReducer, useState, useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Greeting from "./GreetingFunctional";
-import {start} from "repl";
+import ListCreator, { ListItem } from "./ListCreator";
 
 const reducer = (state: any, action: any) => {
   console.log('enteredNameReducer');
@@ -34,6 +34,18 @@ function App() {
     setCount(inc);
   }, [count, startCount]);
 
+  const [listItems, setListItems] = useState<Array<ListItem>>();
+
+  // populates our newly update list
+  useEffect(() => {
+    const li = [];
+
+    for (let i = 0; i < count; i++) {
+      li.push({ id: 1 });
+    }
+    setListItems(li);
+  }, [count]);
+
   const onWelcomeBtnClick = () => {
     setCountCallback();
   }
@@ -58,6 +70,7 @@ function App() {
           <label>{count}</label>
           <br/>
           <button onClick={onWelcomeBtnClick}>Increment count</button>
+          <ListCreator listItems={listItems} />
         </div>
       </header>
     </div>
