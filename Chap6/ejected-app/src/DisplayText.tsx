@@ -11,7 +11,7 @@ const DisplayText = () => {
     const onClickShowMsg = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
 
-        setMsg(`Welcome to React testing. ${txt}`);
+        setMsg(`Welcome to React testing, ${txt}`);
     }
 
     return (
@@ -27,6 +27,9 @@ const DisplayText = () => {
             </div>
             <div>
                 <label data-testid='final-msg'>{msg}</label>
+            </div>
+            <div>
+                this is just a test entry
             </div>
         </form>
     )
