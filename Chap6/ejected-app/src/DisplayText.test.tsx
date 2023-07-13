@@ -3,6 +3,10 @@ import { render, fireEvent, cleanup, waitFor } from '@testing-library/react';
 import DisplayText from "./DisplayText";
 import "@testing-library/jest-dom/extend-expect";
 
+jest.mock("./UserTodos");
+
+afterEach(cleanup);
+
 describe("Test DisplayText", () => {
     const userFullName = "John Tester";
 
