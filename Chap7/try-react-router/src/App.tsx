@@ -1,25 +1,23 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { Routes, Route } from 'react-router-dom';
+import ScreenA from "./ScreenA";
+import ScreenB from "./ScreenB";
+import ScreenC from "./ScreenC";
 
 function App() {
+  const renderScreenC = (props: any) => {
+    console.log('ScreenC props', props);
+    return <ScreenC {...props} message='This is Screen C'/>
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Routes>
+      <Route path='/' Component={ScreenA}></Route>
+      <Route path='/b' Component={ScreenB}></Route>
+      {/*Book wanted to utilize an old react-router-dom method 'render' with ScreenC but it is no longer in usage*/}
+      <Route path='/c/:userid' Component={renderScreenC}></Route>
+    </Routes>
   );
 }
 
