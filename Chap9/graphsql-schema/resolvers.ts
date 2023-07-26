@@ -1,6 +1,6 @@
-import { IResolvers } from '@graphql-tools/utils';
+import { IResolvers } from 'apollo-server-express';
 import { v4 } from 'uuid';
-import { GqlContext } from './GplContext';
+import { GqlContext } from './GqlContext';
 
 interface User {
     id: string;
