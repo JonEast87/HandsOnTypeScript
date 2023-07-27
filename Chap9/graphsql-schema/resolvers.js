@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const uuid_1 = require("uuid");
+const db_1 = require("./db");
 const resolvers = {
     Query: {
         getUser: (obj, args, ctx, info) => __awaiter(void 0, void 0, void 0, function* () {
@@ -39,5 +40,15 @@ const resolvers = {
             ];
         }),
     },
+    Mutation: {
+        addTodo: (parent, args, ctx, info) => __awaiter(void 0, void 0, void 0, function* () {
+            db_1.todos.push({
+                id: (0, uuid_1.v4)(),
+                title: args.title,
+                description: args.description
+            });
+            return db_1.todos[db_1.todos.length - 1];
+        }),
+    }
 };
 exports.default = resolvers;

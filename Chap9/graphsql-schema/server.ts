@@ -9,8 +9,8 @@ import typeDefs from "./typeDefs";
 import resolvers from "./resolvers";
 
 const app = express();
-
 const pubsub = new PubSub();
+
 const schema = makeExecutableSchema({ typeDefs, resolvers });
 const apolloServer = new ApolloServer({
   schema,

@@ -1,6 +1,7 @@
 import { IResolvers } from 'apollo-server-express';
 import { v4 } from 'uuid';
 import { GqlContext } from './GqlContext';
+import { todos } from './db';
 
 interface User {
     id: string;
@@ -11,8 +12,10 @@ interface User {
 interface Todo {
     id: string;
     title: string;
-    description: string;
+    description?: string;
 }
+
+const NEW_TODO = 'NEW TODO';
 
 const resolvers: IResolvers = {
     Query: {
@@ -55,6 +58,24 @@ const resolvers: IResolvers = {
             ];
         },
     },
+    Mutation: {
+        addTodo: async (
+            parent: any,
+            args: {
+                title: string;
+                description: string;
+            },
+            ctx: GqlContext,
+            info: any
+        ): Promise<Todo> => {
+            todos.push({
+                id: v4(),
+                title: args.title,
+                description: args.description
+            });
+            return todos[todos.length - 1];
+        },
+    }
 };
 
 export default resolvers;
