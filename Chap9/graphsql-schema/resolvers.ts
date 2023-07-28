@@ -1,6 +1,6 @@
 import { IResolvers } from 'apollo-server-express';
 import { v4 } from 'uuid';
-import { GqlContext } from './GqlContext';
+import { GqlContext } from "./GqlContext";
 import { todos } from './db';
 
 interface User {
@@ -65,15 +65,25 @@ const resolvers: IResolvers = {
                 title: string;
                 description: string;
             },
-            ctx: GqlContext,
+            { pubsub }: GqlContext,
             info: any
         ): Promise<Todo> => {
-            todos.push({
+            const newTodo = {
                 id: v4(),
                 title: args.title,
                 description: args.description
-            });
+            };
+            todos.push(newTodo);
+            pubsub.publish(NEW_TODO, { newTodo });
             return todos[todos.length - 1];
+        },
+    },
+    Subscription: {
+        newTodo: {
+            subscribe: (parent, args: null, { pubsub }:
+            GqlContext) => {
+                pubsub.asyncIterator(NEW_TODO);
+            },
         },
     }
 };

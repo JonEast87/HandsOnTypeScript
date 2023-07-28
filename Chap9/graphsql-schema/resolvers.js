@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const uuid_1 = require("uuid");
 const db_1 = require("./db");
+const NEW_TODO = 'NEW TODO';
 const resolvers = {
     Query: {
         getUser: (obj, args, ctx, info) => __awaiter(void 0, void 0, void 0, function* () {
@@ -41,14 +42,23 @@ const resolvers = {
         }),
     },
     Mutation: {
-        addTodo: (parent, args, ctx, info) => __awaiter(void 0, void 0, void 0, function* () {
-            db_1.todos.push({
+        addTodo: (parent, args, { pubsub }, info) => __awaiter(void 0, void 0, void 0, function* () {
+            const newTodo = {
                 id: (0, uuid_1.v4)(),
                 title: args.title,
                 description: args.description
-            });
+            };
+            db_1.todos.push(newTodo);
+            pubsub.publish(NEW_TODO, { newTodo });
             return db_1.todos[db_1.todos.length - 1];
         }),
+    },
+    Subscription: {
+        newTodo: {
+            subscribe: (parent, args, { pubsub }) => {
+                pubsub.asyncIterator(NEW_TODO);
+            },
+        },
     }
 };
 exports.default = resolvers;
