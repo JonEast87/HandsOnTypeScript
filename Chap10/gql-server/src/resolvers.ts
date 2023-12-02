@@ -1,36 +1,35 @@
-import { IResolvers } from 'apollo-server-express';
-import { v4 } from 'uuid';
+import { IResolvers } from "apollo-server-express";
+import { v4 } from "uuid";
 import { GqlContext } from "./GqlContext";
-import { todos } from './db';
+import { todos } from "./db";
 
 interface User {
     id: string;
     username: string;
-    description: string;
+    email?: string
 }
 
 interface Todo {
     id: string;
     title: string;
-    description?: string;
+    description?: string
 }
 
-const NEW_TODO = 'NEW TODO';
+const NEW_TODO = "NEW TODO";
 
 const resolvers: IResolvers = {
     Query: {
         getUser: async (
-            obj: any,
+            parent: any,
             args: {
                 id: string;
             },
             ctx: GqlContext,
             info: any
-        ) : Promise<User> => {
+        ): Promise<User> => {
             return {
                 id: v4(),
-                username: 'dave',
-                description: '',
+                username: "dave",
             };
         },
         getTodos: async (
@@ -38,22 +37,22 @@ const resolvers: IResolvers = {
             args: null,
             ctx: GqlContext,
             info: any
-        ) : Promise<Array<Todo>> => {
+        ): Promise<Array<Todo>> => {
+            console.log("running getTodos");
             return [
                 {
                     id: v4(),
-                    title: 'First todo',
-                    description: 'First todo description',
+                    title: "First todo",
+                    description: "First todo description",
                 },
                 {
                     id: v4(),
-                    title: 'Second todo',
-                    description: 'Second todo description',
+                    title: "Second todo",
+                    description: "Second todo description",
                 },
                 {
                     id: v4(),
-                    title: 'Third todo',
-                    description: 'Third todo description'
+                    title: "Third todo",
                 },
             ];
         },
@@ -71,8 +70,9 @@ const resolvers: IResolvers = {
             const newTodo = {
                 id: v4(),
                 title: args.title,
-                description: args.description
+                description: args.description,
             };
+            console.log("newTodo", newTodo);
             todos.push(newTodo);
             pubsub.publish(NEW_TODO, { newTodo });
             return todos[todos.length - 1];
@@ -80,12 +80,9 @@ const resolvers: IResolvers = {
     },
     Subscription: {
         newTodo: {
-            subscribe: (parent, args: null, { pubsub }:
-            GqlContext) => {
-                pubsub.asyncIterator(NEW_TODO);
-            },
+            subscribe: (parent, args: null, { pubsub }: GqlContext) => pubsub.asyncIterator(NEW_TODO),
         },
-    }
+    },
 };
 
 export default resolvers;
