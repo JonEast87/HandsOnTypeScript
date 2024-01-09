@@ -1,6 +1,5 @@
 import express from "express";
 
-console.log(process.env.NODE_ENV);
 require("dotenv").config();
 
 const app = express();
